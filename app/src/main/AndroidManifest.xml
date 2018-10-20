@@ -26,6 +26,30 @@
         <activity
             android:name="br.com.trabalhoandroid.activities.CadastroClienteActivity"
             android:label="@string/title_activity_cadastro_cliente"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="br.com.trabalhoandroid.activities.ProdutoActivity"
+            android:label="@string/title_activity_produto"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="br.com.trabalhoandroid.activities.CadastroProdutoActivity"
+            android:label="@string/title_activity_cadastro_produto"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="br.com.trabalhoandroid.activities.CadastroPedidoActivity"
+            android:label="@string/title_activity_cadastro_pedido"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="br.com.trabalhoandroid.activities.PedidosActivity"
+            android:label="@string/title_activity_pedidos"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="br.com.trabalhoandroid.activities.CadastroItensActivity"
+            android:label="@string/title_activity_cadastro_itens"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="br.com.trabalhoandroid.activities.ItensPedidoActivity"
+            android:label="@string/title_activity_itens_pedido"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

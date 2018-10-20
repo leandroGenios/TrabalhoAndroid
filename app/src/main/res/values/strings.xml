@@ -3,4 +3,10 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_clientes">Clientes</string>
     <string name="title_activity_cadastro_cliente">Cadastro de Cliente</string>
+    <string name="title_activity_produto">Produtos</string>
+    <string name="title_activity_cadastro_produto">Cadastro de Produto</string>
+    <string name="title_activity_cadastro_pedido">Cadastro de Pedido</string>
+    <string name="title_activity_pedidos">Pedidos</string>
+    <string name="title_activity_cadastro_itens">Cadastro de Itens</string>
+    <string name="title_activity_itens_pedido">Itens do Pedido</string>
 </resources>

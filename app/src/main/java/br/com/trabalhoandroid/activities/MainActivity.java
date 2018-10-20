@@ -22,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnClientes = (Button) findViewById(R.id.btn_clientes);
         btnClientes.setOnClickListener(onClickClientes());
+
+        Button btnProdutos = (Button) findViewById(R.id.btn_produtos);
+        btnProdutos.setOnClickListener(onClickProdutos());
+
+        Button btnPedido = (Button) findViewById(R.id.btn_pedidos);
+        btnPedido.setOnClickListener(onClickPedidos());
     }
 
     @Override
@@ -46,6 +52,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ClientesActivity.class);
+                startActivity(intent);
+            }
+        };
+    }
+
+    private View.OnClickListener onClickProdutos(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ProdutoActivity.class);
+                startActivity(intent);
+            }
+        };
+    }
+
+    private View.OnClickListener onClickPedidos(){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PedidosActivity.class);
                 startActivity(intent);
             }
         };
