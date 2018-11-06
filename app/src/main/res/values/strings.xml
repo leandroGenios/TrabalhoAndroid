@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Trabalho Android</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_clientes">Settings</string>
+    <string name="action_produtos">Settings</string>
+    <string name="action_pedidos">Settings</string>
     <string name="title_activity_clientes">Clientes</string>
     <string name="title_activity_cadastro_cliente">Cadastro de Cliente</string>
     <string name="title_activity_produto">Produtos</string>
