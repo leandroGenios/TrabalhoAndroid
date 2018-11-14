@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -20,7 +21,9 @@ import javax.net.ssl.HttpsURLConnection;
 
 import br.com.trabalhoandroid.adapter.ClienteListAdapter;
 import br.com.trabalhoandroid.trabalhoandroid.R;
+import br.com.trabalhoandroid.utils.HttpHelper;
 import br.com.trabalhoandroid.utils.Network;
+import br.com.trabalhoandroid.utils.TaskConnection;
 
 public class ClientesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -40,21 +43,9 @@ public class ClientesActivity extends AppCompatActivity implements AdapterView.O
 
         //Network.getJson("http://192.168.1.5:8080/ServidorRest/rest/clientes");
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                // Create URL
-                URL githubEndpoint = null;
-                try {
-                    githubEndpoint = new URL("https://api.github.com/");
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+        TaskConnection t = new TaskConnection();
 
-                // Create connection
-                HttpsURLConnection myConnection = (HttpsURLConnection) githubEndpoint.openConnection();
-            }
-        });
+        t.execute();
     }
 
     @Override
