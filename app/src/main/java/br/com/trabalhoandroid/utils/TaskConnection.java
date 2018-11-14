@@ -8,15 +8,17 @@ import java.util.List;
 
 import br.com.trabalhoandroid.models.Cliente;
 
-public class TaskConnection extends AsyncTask<Void, Void, List<Cliente>> {
+public class TaskConnection extends AsyncTask<String, String, List<Cliente>> {
     @Override
-    protected List<Cliente> doInBackground(Void... params) {
-        String url = "http://172.30.246.172:8080/ServidorRest/rest/clientes";
+    protected List<Cliente> doInBackground(String... strings) {
+        String url = "http://172.30.246.172:8080/ServidorRest/rest/" + strings[1];
 
         HttpHelper http = new HttpHelper();
         try {
-            String json = http.doGet(url);
-            System.out.println(json);
+            if(strings[0].equals(Constants.GET)){
+                String json = http.doGet(url);
+                System.out.println(json);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

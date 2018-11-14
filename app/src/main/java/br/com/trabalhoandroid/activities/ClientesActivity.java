@@ -21,6 +21,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import br.com.trabalhoandroid.adapter.ClienteListAdapter;
 import br.com.trabalhoandroid.trabalhoandroid.R;
+import br.com.trabalhoandroid.utils.Constants;
 import br.com.trabalhoandroid.utils.HttpHelper;
 import br.com.trabalhoandroid.utils.Network;
 import br.com.trabalhoandroid.utils.TaskConnection;
@@ -41,11 +42,11 @@ public class ClientesActivity extends AppCompatActivity implements AdapterView.O
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(onClickClientes());
 
-        //Network.getJson("http://192.168.1.5:8080/ServidorRest/rest/clientes");
-
         TaskConnection t = new TaskConnection();
-
-        t.execute();
+        String[] params = new String[2];
+        params[0] = Constants.GET;
+        params[1] = "clientes";
+        t.execute(params);
     }
 
     @Override
