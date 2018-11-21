@@ -13,17 +13,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import br.com.trabalhoandroid.adapter.ClienteListAdapter;
+import br.com.trabalhoandroid.models.Cliente;
 import br.com.trabalhoandroid.trabalhoandroid.R;
 import br.com.trabalhoandroid.utils.Constants;
-import br.com.trabalhoandroid.utils.HttpHelper;
-import br.com.trabalhoandroid.utils.Network;
 import br.com.trabalhoandroid.utils.TaskConnection;
 
 public class ClientesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -36,17 +37,50 @@ public class ClientesActivity extends AppCompatActivity implements AdapterView.O
         setSupportActionBar(toolbar);
 
         ListView listClientes = (ListView) findViewById(R.id.list_clientes);
-        listClientes.setAdapter(new ClienteListAdapter(this));
+        listClientes.setAdapter(new ClienteListAdapter(this, getClientes()));
         listClientes.setOnItemClickListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(onClickClientes());
 
+    }
+
+    private List<Cliente> getClientes() {
         TaskConnection t = new TaskConnection();
         String[] params = new String[2];
         params[0] = Constants.GET;
         params[1] = "clientes";
+
+        String json = null;
         t.execute(params);
+        try {
+            json = (String) t.get();
+            System.out.println("teste  ---" + json);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        List<Cliente> list = new ArrayList<>();
+        if(json != null){
+            JSONArray array = null;
+            try {
+                array = new JSONArray(json);
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonObj = array.getJSONObject(i);
+                    Cliente c = new Cliente();
+                    c.setId(jsonObj.getInt("id"));
+                    c.setCpf(jsonObj.getString("cpf"));
+                    c.setNome(jsonObj.getString("nome"));
+                    c.setSobrenome(jsonObj.getString("sobrenome"));
+                    list.add(c);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
     }
 
     @Override

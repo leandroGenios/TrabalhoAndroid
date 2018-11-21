@@ -6,13 +6,29 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import br.com.trabalhoandroid.models.Pedido;
+import br.com.trabalhoandroid.models.Produto;
+
 public class PedidoListAdapter extends BaseAdapter {
-    private String[] list = new String[]{"nome sobrenome\ncpf", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste2"};
+    private String[] list;
     private Context context;
 
-    public PedidoListAdapter(Context context){
+    public PedidoListAdapter(Context context, List<Pedido> pedidos){
         super();
         this.context = context;
+        this.list = new String[pedidos.size()];
+        int index = 0;
+
+        for ( Pedido p: pedidos) {
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String strDate = dateFormat.format(p.getData());
+            this.list[index] = p.getCliente().getCpf() +" "+ p.getCliente().getNome() +" "+ p.getCliente().getSobrenome() +"\n"+ strDate;
+            index++;
+        }
     }
 
     @Override
@@ -32,14 +48,14 @@ public class PedidoListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String cliente = list[position];
+        String pedido = list[position];
         TextView t = new TextView(context);
         float dip = 50;
         float densidade = context.getResources().getDisplayMetrics().density;
 
         int px = (int) (dip * densidade + 0.5f);
         t.setHeight(px);
-        t.setText(cliente);
+        t.setText(pedido);
         return t;
     }
 }

@@ -4,6 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
+
+import br.com.trabalhoandroid.models.Cliente;
 
 public class HttpHelper {
     private final String TAG = "Http";
@@ -142,12 +148,21 @@ public class HttpHelper {
             conn.setDoInput(true);
             conn.connect();
 
-            if (params != null) {
-                OutputStream out = conn.getOutputStream();
-                out.write(params);
-                out.flush();
-                out.close();
-            }
+            JSONObject jsonParam = new JSONObject();
+            Cliente c  = new Cliente();
+            c.setNome("teste");
+            c.setSobrenome("teste");
+            c.setCpf("222.222.222-22");
+            c.setNome("teste");
+            jsonParam.put("cliente", c);
+
+
+            DataOutputStream printout = new DataOutputStream(conn.getOutputStream ());
+            printout.writeBytes(URLEncoder.encode(jsonParam.toString(),"UTF-8"));
+            printout.flush ();
+            printout.close ();
+
+
             InputStream in = null;
             int status = conn.getResponseCode();
             if (status >= HttpURLConnection.HTTP_BAD_REQUEST) {
@@ -163,6 +178,8 @@ public class HttpHelper {
             in.close();
         } catch (IOException e) {
             throw e;
+        } catch (JSONException e) {
+            e.printStackTrace();
         } finally {
             if (conn != null) {
                 conn.disconnect();

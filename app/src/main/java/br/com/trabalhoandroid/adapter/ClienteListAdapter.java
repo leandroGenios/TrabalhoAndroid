@@ -6,13 +6,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
+import br.com.trabalhoandroid.models.Cliente;
+
 public class ClienteListAdapter extends BaseAdapter {
-    private String[] list = new String[]{"nome sobrenome\ncpf", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste2"};
+    private String[] list;
     private Context context;
 
-    public ClienteListAdapter(Context context){
+    public ClienteListAdapter(Context context, List<Cliente> clientes){
         super();
         this.context = context;
+        this.list = new String[clientes.size()];
+        int index = 0;
+        for ( Cliente c: clientes) {
+            this.list[index] = c.getNome() +" "+ c.getSobrenome() +"\n"+ c.getCpf();
+            index++;
+        }
     }
 
     @Override
