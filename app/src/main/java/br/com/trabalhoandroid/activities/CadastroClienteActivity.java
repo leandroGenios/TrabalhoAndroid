@@ -8,6 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import br.com.trabalhoandroid.models.Cliente;
 import br.com.trabalhoandroid.trabalhoandroid.R;
 import br.com.trabalhoandroid.utils.Constants;
 import br.com.trabalhoandroid.utils.TaskConnection;
@@ -28,11 +34,23 @@ public class CadastroClienteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 TaskConnection t = new TaskConnection();
-                String[] params = new String[2];
+                Object[] params = new Object[3];
                 params[0] = Constants.POST;
-                params[1] = "cliente";
+                params[1] = "clientes";
 
-                String json = null;
+                Cliente c = new Cliente();
+                c.setCpf("111.111.111-11");
+                c.setNome("Leandro");
+                c.setSobrenome("Soares");
+
+                String gson = new Gson().toJson(c);
+                try {
+                    params[2] = new JSONObject(gson);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                ;
+
                 t.execute(params);
             }
         });
