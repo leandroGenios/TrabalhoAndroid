@@ -11,7 +11,7 @@ import br.com.trabalhoandroid.models.Cliente;
 public class TaskConnection extends AsyncTask<Object, Object, Object> {
     @Override
     protected Object doInBackground(Object... strings) {
-        String url = "http://192.168.1.2:8080/ServidorRest/rest/" + strings[1];
+        String url = "http://192.168.1.3:8080/ServidorRest/rest/" + strings[1];
         HttpHelper http = new HttpHelper();
         if(strings[0].equals(Constants.GET)){
             try {

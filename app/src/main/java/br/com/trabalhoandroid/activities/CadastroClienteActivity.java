@@ -11,6 +11,7 @@ import android.widget.Button;
 import br.com.trabalhoandroid.trabalhoandroid.R;
 import br.com.trabalhoandroid.utils.Constants;
 import br.com.trabalhoandroid.utils.TaskConnection;
+import retrofit2.Retrofit;
 
 public class CadastroClienteActivity extends AppCompatActivity {
 
