@@ -2,6 +2,8 @@ package br.com.trabalhoandroid.utils;
 
 import android.os.AsyncTask;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ public class TaskConnection extends AsyncTask<Object, Object, Object> {
         }else if(strings[0].equals(Constants.POST)){
             try {
                 List<Cliente> list = new ArrayList<Cliente>();
-                String json = http.doPost(url, (byte[]) null, "UTF-8");
+                String json = http.doPost(url, (JSONObject) strings[2], "UTF-8");
                 System.out.println(json);
 
                 return json;

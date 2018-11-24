@@ -7,10 +7,12 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -22,7 +24,7 @@ public class HttpHelper {
     private final String TAG = "Http";
     public final int TIMEOUT_MILLIS = 15000;
     public boolean LOG_ON = false;
-    private String contentType;
+    private String contentType = "application/json; charset=utf8";
     private String charsetToEncode;
 
     public String doGet(String url) throws IOException {
@@ -119,25 +121,17 @@ public class HttpHelper {
         return s;
     }
 
-    public String doPost(String url, Map<String, String> params, String charset) throws IOException {
-        String queryString = getQueryString(params);
-        byte[] bytes = params != null ? queryString.getBytes(charset) : null;
-        if (LOG_ON) {
-            Log.d(TAG, "Http.doPost: " + url + "?" + params);
-        }
-        return doPost(url, bytes, charset);
-    }
-
-    public String doPost(String url, byte[] params, String charset) throws IOException {
+    public String doPost(String url, JSONObject json, String charset) throws IOException {
         if (LOG_ON) {
             Log.d(TAG, ">> Http.doPost: " + url);
         }
-
+        System.out.println(url);
         URL u = new URL(url);
         HttpURLConnection conn = null;
         String s = null;
         try {
             conn = (HttpURLConnection) u.openConnection();
+            System.out.print("midia   " + contentType);
             if (contentType != null) {
                 conn.setRequestProperty("Content-Type", contentType);
             }
@@ -148,21 +142,14 @@ public class HttpHelper {
             conn.setDoInput(true);
             conn.connect();
 
-            JSONObject jsonParam = new JSONObject();
-            Cliente c  = new Cliente();
-            c.setNome("teste");
-            c.setSobrenome("teste");
-            c.setCpf("222.222.222-22");
-            c.setNome("teste");
-            jsonParam.put("cliente", c);
-
-
-            DataOutputStream printout = new DataOutputStream(conn.getOutputStream ());
-            printout.writeBytes(URLEncoder.encode(jsonParam.toString(),"UTF-8"));
-            printout.flush ();
-            printout.close ();
-
-
+            if (json != null) {
+                OutputStream out = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+                writer.write(json.toString());
+                writer.flush();
+                writer.close();
+                out.close();
+            }
             InputStream in = null;
             int status = conn.getResponseCode();
             if (status >= HttpURLConnection.HTTP_BAD_REQUEST) {
@@ -178,8 +165,6 @@ public class HttpHelper {
             in.close();
         } catch (IOException e) {
             throw e;
-        } catch (JSONException e) {
-            e.printStackTrace();
         } finally {
             if (conn != null) {
                 conn.disconnect();
