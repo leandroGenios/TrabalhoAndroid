@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 
@@ -17,7 +18,6 @@ import br.com.trabalhoandroid.models.Cliente;
 import br.com.trabalhoandroid.trabalhoandroid.R;
 import br.com.trabalhoandroid.utils.Constants;
 import br.com.trabalhoandroid.utils.TaskConnection;
-import retrofit2.Retrofit;
 
 public class CadastroClienteActivity extends AppCompatActivity {
 
@@ -29,6 +29,10 @@ public class CadastroClienteActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Button btnIncluir = (Button) findViewById(R.id.btnIncluir);
+        final EditText edtCpf = (EditText) findViewById(R.id.edtCpf);
+        final EditText edtNome = (EditText) findViewById(R.id.edtNome);
+        final EditText edtSobrenome = (EditText) findViewById(R.id.edtSobrenome);
+
 
         btnIncluir.setOnClickListener(new View.OnClickListener() {
 
@@ -40,9 +44,9 @@ public class CadastroClienteActivity extends AppCompatActivity {
                 params[1] = "clientes";
 
                 Cliente c = new Cliente();
-                c.setCpf("111.111.111-11");
-                c.setNome("Leandro");
-                c.setSobrenome("Soares");
+                c.setCpf(edtCpf.getText().toString());
+                c.setNome(edtNome.getText().toString());
+                c.setSobrenome(edtSobrenome.getText().toString());
 
                 String gson = new Gson().toJson(c);
                 try {
@@ -50,8 +54,6 @@ public class CadastroClienteActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                ;
-
                 t.execute(params);
             }
         });

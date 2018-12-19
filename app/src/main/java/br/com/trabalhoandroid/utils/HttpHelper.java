@@ -131,7 +131,6 @@ public class HttpHelper {
         String s = null;
         try {
             conn = (HttpURLConnection) u.openConnection();
-            System.out.print("midia   " + contentType);
             if (contentType != null) {
                 conn.setRequestProperty("Content-Type", contentType);
             }

@@ -99,6 +99,7 @@ public class PedidosActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getApplicationContext(), ItensPedidoActivity.class);
+        intent.putExtra("pedido", ((Pedido) parent.getAdapter().getItem(position)).getId());
         startActivity(intent);
     }
 

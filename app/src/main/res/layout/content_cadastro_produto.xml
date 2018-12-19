@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_cadastro_produto">
 
     <Button
-        android:id="@+id/btnIncluir3"
+        android:id="@+id/btnIncluirProduto"
         android:layout_width="345dp"
         android:layout_height="49dp"
         android:layout_marginStart="8dp"
@@ -35,7 +35,8 @@
         android:layout_marginRight="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Descrição"
+        android:text=""
+        android:hint="Descrição"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

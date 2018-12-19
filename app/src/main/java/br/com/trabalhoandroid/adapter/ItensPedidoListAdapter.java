@@ -6,13 +6,26 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import br.com.trabalhoandroid.models.ItemDoPedido;
+
 public class ItensPedidoListAdapter extends BaseAdapter {
-    private String[] list = new String[]{"nome sobrenome\ncpf", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste1", "teste2"};
+    private String[] list;
     private Context context;
 
-    public ItensPedidoListAdapter(Context context){
+    public ItensPedidoListAdapter(Context context, List<ItemDoPedido> itens){
         super();
         this.context = context;
+        this.list = new String[itens.size()];
+        int index = 0;
+
+        for ( ItemDoPedido i: itens) {
+            this.list[index] = i.getQuantidade() +" "+ i.getProduto().getDescricao();
+            index++;
+        }
     }
 
     @Override

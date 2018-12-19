@@ -16,11 +16,13 @@ import br.com.trabalhoandroid.models.Produto;
 public class PedidoListAdapter extends BaseAdapter {
     private String[] list;
     private Context context;
+    private List<Pedido> pedidos;
 
     public PedidoListAdapter(Context context, List<Pedido> pedidos){
         super();
         this.context = context;
         this.list = new String[pedidos.size()];
+        this.pedidos = pedidos;
         int index = 0;
 
         for ( Pedido p: pedidos) {
@@ -38,7 +40,7 @@ public class PedidoListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return list[position];
+        return pedidos.get(position);
     }
 
     @Override
