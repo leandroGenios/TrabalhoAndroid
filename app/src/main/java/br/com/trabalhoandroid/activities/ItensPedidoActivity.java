@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,8 +45,13 @@ public class ItensPedidoActivity extends AppCompatActivity implements AdapterVie
         Intent intent = this.getIntent();
         int id = intent.getIntExtra("pedido", 0);
 
+        Pedido p = getPedido(id);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String strDate = dateFormat.format(p.getData());
+        setTitle("Itens pedido " + strDate + " - " + p.getCliente().getNome());
+
         ListView listItens = (ListView) findViewById(R.id.list_itens);
-        listItens.setAdapter(new ItensPedidoListAdapter(this, getItens(id)));
+        listItens.setAdapter(new ItensPedidoListAdapter(this, p.getItens()));
         listItens.setOnItemClickListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -52,7 +60,7 @@ public class ItensPedidoActivity extends AppCompatActivity implements AdapterVie
 
     }
 
-    public List<ItemDoPedido> getItens(int id){
+    public  Pedido getPedido(int id){
         TaskConnection t = new TaskConnection();
         String[] params = new String[2];
         params[0] = Constants.GET;
@@ -68,37 +76,12 @@ public class ItensPedidoActivity extends AppCompatActivity implements AdapterVie
             e.printStackTrace();
         }
 
-        List<ItemDoPedido> list = new ArrayList<>();
+        Pedido p = null;
         if(json != null){
-            JSONArray array = null;
-            try {
-                array = new JSONArray(json);
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject jsonObj = array.getJSONObject(i);
-                    Pedido p = new Pedido();
-                    p.setId(jsonObj.getInt("id"));
-
-                    String pattern = "yyyy-MM-dd";
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-                    Date date = simpleDateFormat.parse(jsonObj.getString("data"));
-                    p.setData(date);
-
-                    JSONObject jsonCliente = jsonObj.getJSONObject("cliente");
-                    Cliente c = new Cliente();
-                    c.setNome(jsonCliente.getString("nome"));
-                    c.setSobrenome((jsonCliente.getString("sobrenome")));
-                    c.setCpf(jsonCliente.getString("cpf"));
-                    c.setId(jsonCliente.getInt("id"));
-                    p.setCliente(c);
-                    list = p.getItens();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Gson gson = new Gson();
+            p = gson.fromJson(json,Pedido.class);
         }
-        return list;
+        return p;
     }
 
     @Override
