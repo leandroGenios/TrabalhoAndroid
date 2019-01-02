@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="br.com.trabalhoandroid.activities.CadastroClienteActivity"
-    tools:showIn="@layout/activity_cadastro_cliente">
+    tools:context="br.com.trabalhoandroid.activities.AlteraClienteActivity"
+    tools:showIn="@layout/activity_altera_cliente">
 
     <EditText
         android:id="@+id/edtCpf"
@@ -73,7 +73,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Incluir"
+        android:text="Alterar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"

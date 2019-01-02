@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.trabalhoandroid.trabalhoandroid">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -52,6 +52,14 @@
         <activity
             android:name="br.com.trabalhoandroid.activities.ItensPedidoActivity"
             android:label="@string/title_activity_itens_pedido"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="br.com.trabalhoandroid.activities.AlteraClienteActivity"
+            android:label="@string/title_activity_altera_cliente"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="br.com.trabalhoandroid.activities.AlteraProdutoActivity"
+            android:label="@string/title_activity_altera_produto"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

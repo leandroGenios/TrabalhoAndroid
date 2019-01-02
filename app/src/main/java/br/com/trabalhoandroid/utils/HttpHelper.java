@@ -23,20 +23,10 @@ import br.com.trabalhoandroid.models.Cliente;
 public class HttpHelper {
     private final String TAG = "Http";
     public final int TIMEOUT_MILLIS = 15000;
-    public boolean LOG_ON = false;
+    public boolean LOG_ON = true;
     private String contentType = "application/json; charset=utf8";
-    private String charsetToEncode;
 
     public String doGet(String url) throws IOException {
-        return doGet(url, null, "UTF-8");
-    }
-
-    public String doGet(String url, Map<String, String> params, String charset) throws IOException {
-        String queryString = getQueryString(params);
-        if (queryString != null && queryString.trim().length() > 0) {
-            url += "?" + queryString;
-        }
-
         if (LOG_ON) {
             Log.d(TAG, ">> Http.doGet: " + url);
         }
@@ -58,10 +48,11 @@ public class HttpHelper {
             if (status >= HttpURLConnection.HTTP_BAD_REQUEST) {
                 Log.d(TAG, "Error code: " + status);
                 in = conn.getErrorStream();
+                s = "ERRO Desculpe!\nNão foi possível realizar a transação. Tente novamente mais tarde.";
             } else {
                 in = conn.getInputStream();
+                s = IOUtils.toString(in, "UTF-8");
             }
-            s = IOUtils.toString(in, charset);
             if (LOG_ON) {
                 Log.d(TAG, "<< Http.doGet: " + s);
             }
@@ -78,15 +69,6 @@ public class HttpHelper {
     }
 
     public String doDelete(String url) throws IOException {
-        return doDelete(url, null, "UTF-8");
-    }
-
-    public String doDelete(String url, Map<String, String> params, String charset) throws IOException {
-        String queryString = getQueryString(params);
-        if (queryString != null && queryString.trim().length() > 0) {
-            url += "?" + queryString;
-        }
-
         if (LOG_ON) {
             Log.d(TAG, ">> Http.doDelete: " + url);
         }
@@ -105,7 +87,7 @@ public class HttpHelper {
 
             conn.connect();
             InputStream in = conn.getInputStream();
-            s = IOUtils.toString(in, charset);
+            s = IOUtils.toString(in, "UTF-8");
             if (LOG_ON) {
                 Log.d(TAG, "<< Http.doGet: " + s);
             }
@@ -172,60 +154,53 @@ public class HttpHelper {
         return s;
     }
 
-    public Bitmap doGetBitmap(String url) throws IOException {
+    public String doPut(String url, JSONObject json, String charset) throws IOException {
         if (LOG_ON) {
-            Log.d(TAG, ">> Http.doGet: " + url);
+            Log.d(TAG, ">> Http.doPut: " + url);
         }
         URL u = new URL(url);
-        HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setConnectTimeout(TIMEOUT_MILLIS);
-        conn.setReadTimeout(TIMEOUT_MILLIS);
-        conn.setDoOutput(true);
-        conn.setDoInput(true);
-        conn.connect();
-        InputStream in = conn.getInputStream();
-        byte[] bytes = IOUtils.toBytes(in);
-        if (LOG_ON) {
-            Log.d(TAG, "<< Http.doGet: " + bytes);
-        }
-        in.close();
-        conn.disconnect();
-        Bitmap bitmap = null;
-        if (bytes != null) {
-            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        }
-        return bitmap;
-    }
+        HttpURLConnection conn = null;
+        String s = null;
+        try {
+            conn = (HttpURLConnection) u.openConnection();
+            if (contentType != null) {
+                conn.setRequestProperty("Content-Type", contentType);
+            }
+            conn.setRequestMethod("PUT");
+            conn.setConnectTimeout(TIMEOUT_MILLIS);
+            conn.setReadTimeout(TIMEOUT_MILLIS);
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.connect();
 
-    /**
-     * Retorna a QueryString para 'GET'
-     */
-    public String getQueryString(Map<String, String> params) throws IOException {
-        if (params == null || params.size() == 0) {
-            return null;
-        }
-        String urlParams = null;
-        for (String chave : params.keySet()) {
-            Object objValor = params.get(chave);
-            if (objValor != null) {
-                String valor = objValor.toString();
-                if (charsetToEncode != null) {
-                    valor = URLEncoder.encode(valor, charsetToEncode);
-                }
-                urlParams = urlParams == null ? "" : urlParams + "&";
-                urlParams += chave + "=" + valor;
+            if (json != null) {
+                OutputStream out = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+                writer.write(json.toString());
+                writer.flush();
+                writer.close();
+                out.close();
+            }
+            InputStream in = null;
+            int status = conn.getResponseCode();
+            if (status >= HttpURLConnection.HTTP_BAD_REQUEST) {
+                Log.d(TAG, "Error code: " + status);
+                in = conn.getErrorStream();
+            } else {
+                in = conn.getInputStream();
+            }
+            s = IOUtils.toString(in, charset);
+            if (LOG_ON) {
+                Log.d(TAG, "<< Http.doPut: " + s);
+            }
+            in.close();
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
             }
         }
-        return urlParams;
-
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public void setCharsetToEncode(String encode) {
-        this.charsetToEncode = encode;
+        return s;
     }
 }

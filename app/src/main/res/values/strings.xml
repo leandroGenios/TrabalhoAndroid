@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Trabalho Android</string>
-    <string name="action_clientes">Settings</string>
-    <string name="action_produtos">Settings</string>
-    <string name="action_pedidos">Settings</string>
+    <string name="action_clientes">Clientes</string>
+    <string name="action_produtos">Produtos</string>
+    <string name="action_pedidos">Pedidos</string>
     <string name="title_activity_clientes">Clientes</string>
     <string name="title_activity_cadastro_cliente">Cadastro de Cliente</string>
     <string name="title_activity_produto">Produtos</string>
@@ -11,4 +11,6 @@
     <string name="title_activity_pedidos">Pedidos</string>
     <string name="title_activity_cadastro_itens">Cadastro de Itens</string>
     <string name="title_activity_itens_pedido">Itens do Pedido</string>
+    <string name="title_activity_altera_cliente">Alterar dados Cliente</string>
+    <string name="title_activity_altera_produto">Altera dados Produto</string>
 </resources>

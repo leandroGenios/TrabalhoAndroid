@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -25,37 +27,48 @@ import br.com.trabalhoandroid.utils.Constants;
 import br.com.trabalhoandroid.utils.MaskWatcher;
 import br.com.trabalhoandroid.utils.TaskConnection;
 
-public class CadastroClienteActivity extends AppCompatActivity {
+public class AlteraClienteActivity extends AppCompatActivity {
+    private EditText edtCpf;
+    private EditText edtNome;
+    private EditText edtSobrenome;
+    private Button btnAlterar;
+    private Cliente cliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_cliente);
+        setContentView(R.layout.activity_altera_cliente);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button btnIncluir = (Button) findViewById(R.id.btnAlterar);
-        final EditText edtCpf = (EditText) findViewById(R.id.edtCpf);
+        edtCpf = findViewById(R.id.edtCpf);
         edtCpf.addTextChangedListener(MaskWatcher.buildCpf());
-        final EditText edtNome = (EditText) findViewById(R.id.edtNome);
-        final EditText edtSobrenome = (EditText) findViewById(R.id.edtSobrenome);
+        edtNome = findViewById(R.id.edtNome);
+        edtSobrenome = findViewById(R.id.edtSobrenome);
+        btnAlterar = findViewById(R.id.btnAlterar);
+
+        cliente = new Cliente();
+        Intent intent = this.getIntent();
+        cliente.setId(intent.getIntExtra("cliente.id", 0));
+        getCliente(cliente.getId());
+        edtCpf.setText(cliente.getCpf());
+        edtNome.setText(cliente.getNome());
+        edtSobrenome.setText(cliente.getSobrenome());
 
 
-        btnIncluir.setOnClickListener(new View.OnClickListener() {
-
+        btnAlterar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 TaskConnection t = new TaskConnection();
                 Object[] params = new Object[3];
-                params[0] = Constants.POST;
+                params[0] = Constants.PUT;
                 params[1] = "clientes";
 
-                Cliente c = new Cliente();
-                c.setCpf(edtCpf.getText().toString());
-                c.setNome(edtNome.getText().toString());
-                c.setSobrenome(edtSobrenome.getText().toString());
+                cliente.setCpf(edtCpf.getText().toString());
+                cliente.setNome(edtNome.getText().toString());
+                cliente.setSobrenome(edtSobrenome.getText().toString());
 
-                String gson = new Gson().toJson(c);
+                String gson = new Gson().toJson(cliente);
                 try {
                     params[2] = new JSONObject(gson);
                 } catch (JSONException e) {
@@ -79,9 +92,29 @@ public class CadastroClienteActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
-
             }
         });
+    }
+
+    private void getCliente(int id){
+        TaskConnection t = new TaskConnection();
+        String[] params = new String[2];
+        params[0] = Constants.GET;
+        params[1] = "clientes/" + id;
+
+        String json = null;
+        t.execute(params);
+        try {
+            json = (String) t.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if(json != null){
+            cliente = new Gson().fromJson(json,Cliente.class);
+        }
     }
 
     @Override

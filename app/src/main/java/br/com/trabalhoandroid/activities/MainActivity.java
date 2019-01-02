@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import br.com.trabalhoandroid.models.Pedido;
 import br.com.trabalhoandroid.trabalhoandroid.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,11 +40,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_cliente) {
-            return true;
+        Intent intent;
+        switch (id) {
+            case R.id.action_cliente:
+                intent = new Intent(getApplicationContext(), ClientesActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_produto:
+                intent = new Intent(getApplicationContext(), ProdutoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_pedido:
+                intent = new Intent(getApplicationContext(), PedidosActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

@@ -55,8 +55,8 @@ public class PedidoListAdapter extends BaseAdapter {
         float dip = 50;
         float densidade = context.getResources().getDisplayMetrics().density;
 
-        int px = (int) (dip * densidade + 0.5f);
-        t.setHeight(px);
+        int px = (int) (dip * densidade + 0.5f)/2;
+        t.setPadding(px,px,px,px);
         t.setText(pedido);
         return t;
     }

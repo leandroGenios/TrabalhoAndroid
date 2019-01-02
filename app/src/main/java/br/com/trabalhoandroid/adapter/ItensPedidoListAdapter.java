@@ -13,29 +13,23 @@ import java.util.List;
 import br.com.trabalhoandroid.models.ItemDoPedido;
 
 public class ItensPedidoListAdapter extends BaseAdapter {
-    private String[] list;
+    private List<ItemDoPedido> list;
     private Context context;
 
     public ItensPedidoListAdapter(Context context, List<ItemDoPedido> itens){
         super();
         this.context = context;
-        this.list = new String[itens.size()];
-        int index = 0;
-
-        for ( ItemDoPedido i: itens) {
-            this.list[index] = i.getQuantidade() +" "+ i.getProduto().getDescricao();
-            index++;
-        }
+        this.list = itens;
     }
 
     @Override
     public int getCount() {
-        return list.length;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list[position];
+        return list.get(position);
     }
 
     @Override
@@ -45,14 +39,18 @@ public class ItensPedidoListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String cliente = list[position];
+        ItemDoPedido item = list.get(position);
         TextView t = new TextView(context);
-        float dip = 50;
-        float densidade = context.getResources().getDisplayMetrics().density;
-
-        int px = (int) (dip * densidade + 0.5f);
-        t.setHeight(px);
-        t.setText(cliente);
+        t.setText(item.getQuantidade() + "   " + item.getProduto().getDescricao());
         return t;
+    }
+
+    public void addResults(ItemDoPedido item) {
+        list.add(item);
+        notifyDataSetChanged();
+    }
+
+    public List<ItemDoPedido> getList(){
+        return list;
     }
 }
