@@ -10,7 +10,7 @@ import java.io.IOException;
 public class TaskConnection extends AsyncTask<Object, Object, Object> {
     @Override
     protected Object doInBackground(Object... strings) {
-        String url = "http://192.168.1.4:8080/ServidorRest/rest/" + strings[1];
+        String url = "http://172.30.246.172:8080/ServidorRest/rest/" + strings[1];
         HttpHelper http = new HttpHelper();
         if(strings[0].equals(Constants.GET)){
             try {
