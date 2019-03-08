@@ -2,32 +2,21 @@ package br.com.trabalhoandroid.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import br.com.trabalhoandroid.adapter.ClienteListAdapter;
 import br.com.trabalhoandroid.adapter.ItensPedidoListAdapter;
-import br.com.trabalhoandroid.models.Cliente;
-import br.com.trabalhoandroid.models.ItemDoPedido;
 import br.com.trabalhoandroid.models.Pedido;
 import br.com.trabalhoandroid.trabalhoandroid.R;
 import br.com.trabalhoandroid.utils.Constants;
@@ -54,9 +43,6 @@ public class ItensPedidoActivity extends AppCompatActivity implements AdapterVie
         listItens.setAdapter(new ItensPedidoListAdapter(this, p.getItens()));
         listItens.setOnItemClickListener(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(onClickItem());
-
 
     }
 
@@ -78,8 +64,8 @@ public class ItensPedidoActivity extends AppCompatActivity implements AdapterVie
 
         Pedido p = null;
         if(json != null){
-            Gson gson = new Gson();
-            p = gson.fromJson(json,Pedido.class);
+            System.out.println(json);
+            p = new Gson().fromJson(json,Pedido.class);
         }
         return p;
     }
@@ -95,7 +81,40 @@ public class ItensPedidoActivity extends AppCompatActivity implements AdapterVie
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CadastroItensActivity.class);
                 startActivity(intent);
+                finish();
             }
         };
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        Intent intent;
+        switch (id) {
+            case R.id.action_cliente:
+                intent = new Intent(getApplicationContext(), ClientesActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.action_produto:
+                intent = new Intent(getApplicationContext(), ProdutoActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.action_pedido:
+                intent = new Intent(getApplicationContext(), PedidosActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

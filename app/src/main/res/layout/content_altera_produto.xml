@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="br.com.trabalhoandroid.activities.CadastroProdutoActivity"
-    tools:showIn="@layout/activity_cadastro_produto">
+    tools:context="br.com.trabalhoandroid.activities.AlteraProdutoActivity"
+    tools:showIn="@layout/activity_altera_produto">
 
     <Button
-        android:id="@+id/btnIncluirProduto"
+        android:id="@+id/btnAlteraProduto"
         android:layout_width="345dp"
         android:layout_height="49dp"
         android:layout_marginStart="8dp"

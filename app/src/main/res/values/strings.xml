@@ -11,4 +11,6 @@
     <string name="title_activity_pedidos">Pedidos</string>
     <string name="title_activity_cadastro_itens">Cadastro de Itens</string>
     <string name="title_activity_itens_pedido">Itens do Pedido</string>
+    <string name="title_activity_altera_cliente">Alterar dados Cliente</string>
+    <string name="title_activity_altera_produto">Altera dados Produto</string>
 </resources>
