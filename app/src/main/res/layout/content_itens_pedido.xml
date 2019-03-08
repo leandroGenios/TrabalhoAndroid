@@ -10,11 +10,7 @@
 
     <ListView
         android:id="@+id/list_itens"
-        style="@style/ThemeOverlay.MaterialComponents.ActionBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:entries="@color/colorAccent"
-        android:layout_marginLeft="10dp"
-        android:headerDividersEnabled="false" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
